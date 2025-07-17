@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %} Vista Previa PDF Clientes {% endblock %}
+
+{% block content %}
+<div class="container py-4 mt-5">
+    <h2 class="text-center mb-4">Reporte de Clientes - Sistema de Inventario</h2>
+    
+    <div class="mb-3 text-end">
+        <a href="{% url 'descargar_pdf_clientes' %}" class="btn btn-danger">
+            <i class="bi bi-file-earmark-pdf"></i> Descargar PDF
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered text-center">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Dirección</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in clientes %}
+                <tr>
+                    <td>{{ cliente.id }}</td>
+                    <td>{{ cliente.nombre }}</td>
+                    <td>{{ cliente.telefono }}</td>
+                    <td>{{ cliente.correo }}</td>
+                    <td>{{ cliente.direccion }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

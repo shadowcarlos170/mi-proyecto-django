@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %} Vista Previa PDF Proveedores {% endblock %}
+
+{% block content %}
+<div class="container py-4 mt-5">
+    <h2 class="text-center mb-4">Reporte de Proveedores - Sistema de Inventario</h2>
+    
+    <div class="mb-3 text-end">
+        <a href="{% url 'descargar_pdf_proveedores' %}" class="btn btn-danger">
+            <i class="bi bi-file-earmark-pdf"></i> Descargar PDF
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered text-center">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Empresa</th>
+                    <th>Contacto</th>
+                    <th>Teléfono</th>
+                    <th>Dirección</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for proveedor in proveedores %}
+                <tr>
+                    <td>{{ proveedor.id }}</td>
+                    <td>{{ proveedor.empresa }}</td>
+                    <td>{{ proveedor.contacto }}</td>
+                    <td>{{ proveedor.telefono }}</td>
+                    <td>{{ proveedor.direccion }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

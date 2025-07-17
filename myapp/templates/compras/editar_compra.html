@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Editar Compra #{{ compra.id }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-4">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom py-3">
+            <h5 class="mb-0 fw-bold text-dark">
+                <i class="bi bi-pencil-square me-2"></i> Editar Compra #{{ compra.id }}
+            </h5>
+            <a href="{% url 'compras' %}" class="btn btn-outline-secondary btn-sm">← Cancelar</a>
+        </div>
+
+        <form method="post" class="p-4">
+            {% csrf_token %}
+            
+            <!-- Datos de la Compra -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Proveedor:</label>
+                    {{ form.proveedor }}
+                    {{ form.proveedor.errors }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Empleado:</label>
+                    {{ form.empleado }}
+                    {{ form.empleado.errors }}
+                </div>
+            </div>
+
+            <hr>
+            <h6 class="fw-bold">Productos:</h6>
+            {{ formset.management_form }}
+            {% for form in formset %}
+                <div class="row mb-2 border rounded-3 p-2 formset-form {% if forloop.counter0|divisibleby:2 %}bg-light{% endif %}">
+                    <div class="col-md-5">
+                        <label class="form-label">Producto:</label>
+                        {{ form.producto }}
+                        {{ form.producto.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Cantidad:</label>
+                        {{ form.cantidad }}
+                        {{ form.cantidad.errors }}
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Precio Unitario:</label>
+                        {{ form.precio_unitario }}
+                        {{ form.precio_unitario.errors }}
+                    </div>
+                    <div class="col-md-1 d-flex align-items-center">
+                        {% if form.instance.pk %}
+                            <label class="form-check-label ms-1">
+                                {{ form.DELETE }} Eliminar
+                            </label>
+                        {% endif %}
+                        {{ form.id }}
+                    </div>
+                </div>
+            {% endfor %}
+
+            <!-- Botones -->
+            <div class="mb-3">
+                <button type="button" id="add-detail" class="btn btn-primary btn-sm">
+                    <i class="bi bi-plus-circle"></i> Agregar Producto
+                </button>
+            </div>
+
+            <div class="mt-4 text-end">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-save me-1"></i> Guardar Cambios
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addButton = document.getElementById('add-detail');
+    const totalForms = document.getElementById('id_' + '{{ formset.prefix }}' + '-TOTAL_FORMS');
+    const formContainer = document.querySelector('.formset-form').parentNode;
+
+    addButton.addEventListener('click', function() {
+        const formNum = parseInt(totalForms.value);
+        const newForm = document.querySelector('.formset-form').cloneNode(true);
+
+        // Actualizar índices
+        newForm.innerHTML = newForm.innerHTML.replace(/-\d+-/g, '-' + formNum + '-');
+        
+        // Limpiar valores
+        newForm.querySelectorAll('input[type=number], select').forEach(input => {
+            if (!input.readOnly && input.name.includes('precio_unitario')) {
+                input.value = '';
+            }
+        });
+
+        // Quitar checkbox DELETE si existe
+        const deleteCheckbox = newForm.querySelector('input[type=checkbox][name*="DELETE"]');
+        if (deleteCheckbox) {
+            deleteCheckbox.checked = false;
+        }
+
+        // Agregar botón para eliminar el nuevo formulario
+        const deleteBtn = document.createElement('button');
+        deleteBtn.type = 'button';
+        deleteBtn.className = 'btn btn-danger btn-sm ms-2';
+        deleteBtn.innerHTML = '<i class="bi bi-trash"></i>';
+        deleteBtn.onclick = function() {
+            newForm.remove();
+        };
+        
+        newForm.querySelector('.col-md-1').prepend(deleteBtn);
+        formContainer.appendChild(newForm);
+        totalForms.value = formNum + 1;
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %} Vista Previa Compras PDF {% endblock %}
+
+{% block content %}
+<div class="container py-4 mt-5">
+    <h2 class="text-center mb-4">Reporte de Compras - COMPUMARKET</h2>
+    
+    <div class="mb-3 text-end">
+        <a href="{% url 'descargar_pdf_compras' %}" class="btn btn-danger">
+            <i class="bi bi-file-earmark-pdf"></i> Descargar PDF
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered text-center">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Proveedor</th>
+                    <th>Empleado</th>
+                    <th>Total (Bs)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in compras_con_totales %}
+                <tr>
+                    <td>{{ item.compra.id }}</td>
+                    <td>{{ item.compra.fecha }}</td>
+                    <td>{{ item.compra.proveedor }}</td>
+                    <td>{{ item.compra.empleado }}</td>
+                    <td>{{ item.total|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

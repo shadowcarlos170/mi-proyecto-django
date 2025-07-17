@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block title %} Registrar Compra {% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-4">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom py-3">
+            <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-bag-plus me-2"></i> Registrar Nueva Compra</h5>
+            <a href="{% url 'compras' %}" class="btn btn-outline-secondary btn-sm">← Volver</a>
+        </div>
+
+        <form method="post" class="p-4">
+            {% csrf_token %}
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Proveedor:</label>
+                    {{ form.proveedor }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Empleado:</label>
+                    {{ form.empleado }}
+                </div>
+            </div>
+
+            <hr>
+            <h6 class="fw-bold">Productos en la Compra:</h6>
+            {{ formset.management_form }}
+            {% for form in formset %}
+                <div class="row mb-2 border rounded-3 p-2 formset-form">
+                    <div class="col-md-5">
+                        {{ form.producto.label_tag }} {{ form.producto }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form.cantidad.label_tag }} {{ form.cantidad }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form.precio_unitario.label_tag }} {{ form.precio_unitario }}
+                    </div>
+                    <div class="col-md-1 d-flex align-items-center">
+                        {% if form.instance.pk %}
+                        <label class="form-check-label ms-1">
+                            {{ form.DELETE }} Eliminar
+                        </label>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="mb-3">
+                <button type="button" id="add-detail" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Agregar Producto
+                </button>
+            </div>
+
+            <div class="mt-4 text-end">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-save me-1"></i> Guardar Compra
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addButton = document.getElementById('add-detail');
+    const totalForms = document.getElementById('id_' + '{{ formset.prefix }}' + '-TOTAL_FORMS');
+    const formContainer = document.querySelector('.formset-form').parentNode;
+
+    addButton.addEventListener('click', function() {
+        let formNum = parseInt(totalForms.value);
+        let newForm = document.querySelectorAll('.formset-form')[0].cloneNode(true);
+
+        // Limpiar inputs del nuevo formulario
+        newForm.querySelectorAll('input, select').forEach(function(input) {
+            if(input.type === 'checkbox') {
+                input.checked = false;
+            } else {
+                input.value = '';
+            }
+        });
+
+        // Actualizar índices en los atributos name e id
+        newForm.innerHTML = newForm.innerHTML.replace(new RegExp('{{ formset.prefix }}-0', 'g'), '{{ formset.prefix }}-' + formNum);
+
+        formContainer.appendChild(newForm);
+        totalForms.value = formNum + 1;
+    });
+});
+</script>
+{% endblock %}

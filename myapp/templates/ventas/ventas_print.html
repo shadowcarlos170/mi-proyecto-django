@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %} Vista Previa Ventas PDF {% endblock %}
+
+{% block content %}
+<div class="container py-4 mt-5">
+    <h2 class="text-center mb-4">Reporte de Ventas - COMPUMARKET</h2>
+    
+    <div class="mb-3 text-end">
+        <a href="{% url 'descargar_pdf_ventas' %}" class="btn btn-danger">
+            <i class="bi bi-file-earmark-pdf"></i> Descargar PDF
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered text-center">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Empleado</th>
+                    <th>Total (Bs)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in ventas_con_totales %}
+                <tr>
+                    <td>{{ item.venta.id }}</td>
+                    <td>{{ item.venta.fecha }}</td>
+                    <td>{{ item.venta.cliente }}</td>
+                    <td>{{ item.venta.empleado }}</td>
+                    <td>{{ item.total|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

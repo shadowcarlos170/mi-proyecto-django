@@ -1,0 +1,280 @@
+:root {
+    /* Colores base */
+    --primary-bg: #f8faff;
+    --secondary-bg: #ffffff;
+    --nav-bg: #2c5e9e; /* Azul principal para la barra */
+    --accent-color: #2c5e9e;
+    --accent-light: #4a7fc1;
+    --accent-secondary: #5a8fd8;
+    --text-primary: #2c3e50;
+    --text-light: #ffffff;
+    --text-secondary: #7f8c8d;
+    --border-color: #e0e9f5;
+    --hover-bg: #e6f0ff;
+    --active-bg: #d0e3ff;
+    --card-shadow: 0 4px 12px rgba(44, 94, 158, 0.1);
+}
+
+[data-theme="dark"] {
+    --primary-bg: #0f172a;
+    --secondary-bg: #1e293b;
+    --nav-bg: #1e3a8a; /* Azul más oscuro para modo noche */
+    --accent-color: #3b82f6;
+    --accent-light: #60a5fa;
+    --accent-secondary: #7ab0ff;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --border-color: #334155;
+    --hover-bg: #1e40af;
+    --active-bg: #1d4ed8;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', 'Helvetica Neue', sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* Layout principal */
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Barra de navegación azul */
+.sidebar {
+    width: 280px;
+    background: var(--nav-bg);
+    padding: 25px 15px;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    color: var(--text-light);
+}
+
+/* Logo con estilo coherente */
+.logo-container {
+    padding: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.logo-img:hover {
+    border-color: var(--text-light);
+    transform: scale(1.05);
+}
+
+.username {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-top: 10px;
+}
+
+.username small {
+    display: block;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: normal;
+}
+
+/* Menú de navegación azul con hover */
+.nav-links {
+    list-style: none;
+    padding: 0;
+}
+
+.nav-links li {
+    margin: 12px 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-links a i {
+    font-size: 1.3rem;
+    color: var(--text-light);
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(5px);
+}
+
+.nav-links a:hover i {
+    transform: scale(1.1);
+}
+
+.nav-links a.active {
+    background: rgba(255, 255, 255, 0.3);
+    font-weight: 500;
+}
+
+.nav-links a.logout-btn {
+    margin-top: 30px;
+    background: rgba(231, 76, 60, 0.2);
+    color: #ff9e9e;
+}
+
+.nav-links a.logout-btn:hover {
+    background: rgba(231, 76, 60, 0.3);
+}
+
+.nav-links a.logout-btn i {
+    color: #ff9e9e;
+}
+
+/* Contenido principal con tonos azules */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    background-color: var(--primary-bg);
+    overflow-y: auto;
+}
+
+/* Botón de tema con estilo azul */
+.theme-toggle-button {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 100;
+}
+
+.theme-toggle-button button {
+    background: var(--accent-color);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--card-shadow);
+}
+
+.theme-toggle-button button:hover {
+    background: var(--accent-light);
+    transform: translateY(-2px);
+}
+
+/* Componentes que heredan el azul */
+.card {
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    border-top: 3px solid var(--accent-color);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(44, 94, 158, 0.15);
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-light);
+    border-color: var(--accent-light);
+    transform: translateY(-2px);
+}
+
+.table th {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .sidebar {
+        position: fixed;
+        transform: translateX(-100%);
+        z-index: 1000;
+        height: 100vh;
+    }
+    
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        padding: 20px;
+        margin-left: 0;
+    }
+    
+    .theme-toggle-button {
+        top: 1rem;
+        right: 1rem;
+    }
+}
+
+/* Scroll personalizado azul */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--border-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-light);
+}
+
+/* Efectos de transición */
+a, button, .card {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Ocultar efectos de partículas */
+#particles-js {
+    display: none;
+}

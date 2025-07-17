@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %} Vista Previa PDF Empleados {% endblock %}
+
+{% block content %}
+<div class="container py-4 mt-5">
+    <h2 class="text-center mb-4">Reporte de Empleados - Sistema de Inventario</h2>
+    
+    <div class="mb-3 text-end">
+        <a href="{% url 'descargar_pdf_empleados' %}" class="btn btn-danger">
+            <i class="bi bi-file-earmark-pdf"></i> Descargar PDF
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered text-center">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>Cargo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for empleado in empleados %}
+                <tr>
+                    <td>{{ empleado.id }}</td>
+                    <td>{{ empleado.nombre }}</td>
+                    <td>{{ empleado.apellido }}</td>
+                    <td>{{ empleado.correo }}</td>
+                    <td>{{ empleado.telefono }}</td>
+                    <td>{{ empleado.cargo }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

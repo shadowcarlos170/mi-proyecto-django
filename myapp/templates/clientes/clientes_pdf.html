@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de Clientes - COMPUMARKET</title>
+    <style>
+        body {
+            font-family: DejaVu Sans, sans-serif;
+            font-size: 11px;
+            padding: 30px;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .empresa {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+            padding: 0;
+        }
+
+        .subtitulo {
+            font-size: 17px;
+            color: #666;
+            margin: 0;
+            padding: 0;
+        }
+
+        .info {
+            text-align: center;
+            font-size: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+        }
+
+        th, td {
+            border: 1px solid #444;
+            padding: 5px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .firma {
+            margin-top: 40px;
+            text-align: right;
+        }
+
+        .firma-linea {
+            border-top: 1px solid #000;
+            width: 200px;
+            margin-left: auto;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 10px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <p class="empresa">COMPUMARKET SRL</p>
+        <p class="subtitulo">Reporte Oficial de Clientes del Sistema de Inventario</p>
+    </header>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Dirección</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.id }}</td>
+                <td>{{ cliente.nombre }}</td>
+                <td>{{ cliente.telefono }}</td>
+                <td>{{ cliente.correo }}</td>
+                <td>{{ cliente.direccion }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="firma">
+        <p>___________________________</p>
+        <p class="firma-linea">Encargado de Clientes</p>
+    </div>
+
+    <div class="info">
+        La Paz, Bolivia – Fecha de emisión: {{ now|date:"d 'de' F 'de' Y - H:i" }}
+    </div>
+
+    <div class="footer">
+        © {{ now|date:"Y" }} COMPUMARKET SRL – Sistema de Gestión de Clientes | Reporte generado automáticamente
+    </div>
+</body>
+</html>

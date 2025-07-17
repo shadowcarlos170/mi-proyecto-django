@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    background: url('../img/login3.gif') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+
+.login-container {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+    color: #ffffff;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.login-container h2 {
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-size: 28px;
+    background: linear-gradient(45deg, #00ffe7, #0088ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 5s linear infinite;
+}
+
+@keyframes shine {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+.login-form input {
+    width: 100%;
+    padding: 14px;
+    margin: 12px 0;
+    border: none;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.login-form input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.login-form input:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 10px #00ffe7;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #00ffe7, #0088ff);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.4s ease;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #0088ff, #00ffe7);
+    box-shadow: 0 0 12px #00ffe7;
+    transform: scale(1.03);
+}
+
+.messages {
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+}
+
+.error-message {
+    color: rgb(255, 6, 6);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.extras {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    margin-top: 10px;
+    color: #ffffff;
+}
+
+.extras .forgot {
+    color: #00ffe7;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.extras .forgot:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.remember {
+    display: flex;
+    flex-direction: row; /* IMPORTANTE: texto a la izquierda */
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    color: #ffffff; /* Color blanco para el texto */
+    font-size: 14px;
+}
+
+.remember input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #00ffe7; /* Color del check marcado */
+    cursor: pointer;
+}
+
+
+
+.register-link {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.register-link a {
+    color: #00ffe7;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.register-link a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}

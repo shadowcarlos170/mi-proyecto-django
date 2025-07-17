@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %} Compras {% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-4 mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom py-3">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-bag-check-fill text-primary fs-3 me-3"></i>
+                <div>
+                    <h5 class="mb-0 fw-bold text-dark">Gestión de Compras</h5>
+                    <small class="text-muted">Listado de compras registradas</small>
+                </div>
+            </div>
+            <div>
+                <a href="{% url 'compras_print' %}" class="btn btn-outline-secondary btn-sm me-2">
+                    <i class="bi bi-printer"></i> Imprimir
+                </a>
+                <a href="{% url 'crear_compra' %}" class="btn btn-success btn-sm">
+                    <i class="bi bi-plus-circle me-1"></i> Registrar Compra
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body px-0 py-0">
+            <div class="table-responsive">
+                <table class="table table-striped align-middle mb-0">
+                    <thead class="table-light text-center">
+                        <tr class="text-uppercase small text-secondary">
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Proveedor</th>
+                            <th>Empleado</th>
+                            <th>Total</th>
+                            <th>Acciones</th>  <!-- Nueva columna para botón -->
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        {% for item in compras_con_totales %}
+                        <tr>
+                            <td>{{ item.compra.id }}</td>
+                            <td>{{ item.compra.fecha }}</td>
+                            <td>{{ item.compra.proveedor }}</td>
+                            <td>{{ item.compra.empleado }}</td>
+                            <td> {{ item.total|floatformat:2 }} Bs</td>
+                            <td>
+                               
+                                <a href="{% url 'detalle_compra' item.compra.id %}" class="btn btn-info btn-sm">
+                                    Detalles
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="6">No hay compras registradas.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card-footer bg-white border-top text-end text-muted small py-2 px-3">
+            Última actualización: mayo 2025 – Sistema de Inventario
+        </div>
+    </div>
+</div>
+{% endblock %}

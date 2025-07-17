@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %} Crear Empleado {% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-4">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-white border-bottom py-3">
+            <h5 class="mb-0 fw-bold text-dark">Agregar Nuevo Empleado</h5>
+            <small class="text-muted">Complete el formulario para registrar un empleado</small>
+        </div>
+
+        <div class="card-body">
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="{{ form.nombre.id_for_label }}" class="form-label">Nombre</label>
+                    {{ form.nombre }}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.apellido.id_for_label }}" class="form-label">Apellido</label>
+                    {{ form.apellido }}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.correo.id_for_label }}" class="form-label">Correo</label>
+                    {{ form.correo }}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.telefono.id_for_label }}" class="form-label">Teléfono</label>
+                    {{ form.telefono }}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.cargo.id_for_label }}" class="form-label">Cargo</label>
+                    {{ form.cargo }}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a href="{% url 'empleados' %}" class="btn btn-secondary ms-2">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

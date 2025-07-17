@@ -1,0 +1,509 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  :root {
+    --primary: #3b82f6;
+    --primary-light: #60a5fa;
+    --dark: #0f172a;
+    --darker: #020617;
+    --light: #e2e8f0;
+    --lighter: #f8fafc;
+    --gray: #94a3b8;
+    --card-bg: #1e293b;
+    --card-border: #334155;
+  }
+  
+  body {
+    background-color: var(--darker);
+    color: var(--light);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  .card-custom {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
+
+  .card-custom:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+    border-color: var(--primary);
+  }
+
+  .card-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1;
+  }
+
+  .stat-change {
+    font-size: 0.75rem;
+    color: #10b981;
+    display: flex;
+    align-items: center;
+  }
+
+  .stat-change.negative {
+    color: #ef4444;
+  }
+
+  .dashboard-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    padding-bottom: 1.5rem;
+  }
+
+  .dashboard-header h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 0.5rem;
+  }
+
+  .dashboard-header p {
+    font-size: 1.1rem;
+    color: var(--gray);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .dashboard-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    border-radius: 2px;
+  }
+
+  canvas {
+    max-height: 250px;
+    margin-top: 1rem;
+  }
+
+  .card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--primary);
+  }
+
+  /* Animaciones */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-card {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  /* Retrasos para animación escalonada */
+  .card-custom:nth-child(1) { animation-delay: 0.1s; }
+  .card-custom:nth-child(2) { animation-delay: 0.2s; }
+  .card-custom:nth-child(3) { animation-delay: 0.3s; }
+  .card-custom:nth-child(4) { animation-delay: 0.4s; }
+  .card-custom:nth-child(5) { animation-delay: 0.5s; }
+  .card-custom:nth-child(6) { animation-delay: 0.6s; }
+</style>
+
+<div class="container-fluid mt-4 px-4">
+
+  <!-- Encabezado mejorado -->
+  <div class="dashboard-header">
+    <h2>¡Bienvenido {{ request.user.first_name|default:request.user.username }}!</h2>
+    <p>Panel de control del <strong class="text-primary">Sistema de Inventario Compumarket</strong> - Resumen de métricas clave y rendimiento</p>
+  </div>
+
+  <!-- Tarjetas resumen con animación -->
+  <div class="row g-3 mb-4">
+    <div class="col-sm-6 col-md-4 col-lg-2">
+      <div class="card card-custom p-3 animate-card">
+        <div class="card-icon">
+          <i class="fas fa-box"></i>
+        </div>
+        <div class="card-title">Productos</div>
+        <div class="stat-value" id="prodCount">450</div>
+        <div class="stat-change">
+          <i class="fas fa-arrow-up mr-1"></i> 12% este mes
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-sm-6 col-md-4 col-lg-2">
+      <div class="card card-custom p-3 animate-card">
+        <div class="card-icon">
+          <i class="fas fa-truck"></i>
+        </div>
+        <div class="card-title">Proveedores</div>
+        <div class="stat-value" id="provCount">120</div>
+        <div class="stat-change">
+          <i class="fas fa-arrow-up mr-1"></i> 5% este mes
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-sm-6 col-md-4 col-lg-2">
+      <div class="card card-custom p-3 animate-card">
+        <div class="card-icon">
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <div class="card-title">Ventas</div>
+        <div class="stat-value" id="salesCount">320</div>
+        <div class="stat-change">
+          <i class="fas fa-arrow-up mr-1"></i> 18% este mes
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-sm-6 col-md-4 col-lg-2">
+      <div class="card card-custom p-3 animate-card">
+        <div class="card-icon">
+          <i class="fas fa-shopping-bag"></i>
+        </div>
+        <div class="card-title">Compras</div>
+        <div class="stat-value" id="purchasesCount">280</div>
+        <div class="stat-change negative">
+          <i class="fas fa-arrow-down mr-1"></i> 3% este mes
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-sm-6 col-md-4 col-lg-2">
+      <div class="card card-custom p-3 animate-card">
+        <div class="card-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="card-title">Clientes</div>
+        <div class="stat-value" id="clientsCount">150</div>
+        <div class="stat-change">
+          <i class="fas fa-arrow-up mr-1"></i> 8% este mes
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-sm-6 col-md-4 col-lg-2">
+      <div class="card card-custom p-3 animate-card">
+        <div class="card-icon">
+          <i class="fas fa-user-tie"></i>
+        </div>
+        <div class="card-title">Empleados</div>
+        <div class="stat-value" id="staffCount">12</div>
+        <div class="stat-change">
+          <i class="fas fa-equals mr-1"></i> estable
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráficos con mejor diseño -->
+  <div class="row g-3 mb-4">
+    <div class="col-lg-6">
+      <div class="card card-custom p-3 h-100">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <div class="card-title">Ventas Mensuales</div>
+            <div class="text-primary font-weight-bold">2023</div>
+          </div>
+          <div class="badge bg-primary bg-opacity-10 text-primary p-2">+18% vs 2022</div>
+        </div>
+        <canvas id="ventasChart"></canvas>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card card-custom p-3 h-100">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <div class="card-title">Distribución de Productos</div>
+            <div class="text-primary font-weight-bold">Por marca</div>
+          </div>
+          <div class="badge bg-primary bg-opacity-10 text-primary p-2">Total: 450</div>
+        </div>
+        <canvas id="productosChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-lg-6">
+      <div class="card card-custom p-3 h-100">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <div class="card-title">Comparativa Compras vs Ventas</div>
+            <div class="text-primary font-weight-bold">Últimos 6 meses</div>
+          </div>
+          <div class="d-flex">
+            <div class="badge bg-blue-500 bg-opacity-10 text-blue-500 p-2 mr-2">Compras</div>
+            <div class="badge bg-green-500 bg-opacity-10 text-green-500 p-2">Ventas</div>
+          </div>
+        </div>
+        <canvas id="comprasVentasChart"></canvas>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card card-custom p-3 h-100">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <div class="card-title">Stock por Categoría</div>
+            <div class="text-primary font-weight-bold">Disponibilidad</div>
+          </div>
+          <div class="badge bg-primary bg-opacity-10 text-primary p-2">Total: 750 unidades</div>
+        </div>
+        <canvas id="stockChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+<script>
+  // Variables CSS personalizadas para los gráficos
+  const chartColors = {
+    blue: '#3b82f6',
+    lightBlue: '#60a5fa',
+    green: '#10b981',
+    lightGreen: '#34d399',
+    red: '#ef4444',
+    yellow: '#f59e0b',
+    purple: '#8b5cf6',
+    pink: '#ec4899',
+    cyan: '#06b6d4'
+  };
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: {
+          color: '#cbd5e1',
+          font: { 
+            size: 12,
+            family: 'Inter'
+          },
+          padding: 20,
+          usePointStyle: true,
+          pointStyle: 'circle'
+        }
+      },
+      tooltip: {
+        backgroundColor: '#1e293b',
+        titleColor: '#f8fafc',
+        bodyColor: '#e2e8f0',
+        borderColor: '#334155',
+        borderWidth: 1,
+        padding: 12,
+        usePointStyle: true,
+        callbacks: {
+          label: function(context) {
+            return `${context.dataset.label}: ${context.raw.toLocaleString()}`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: { 
+        ticks: { 
+          color: '#94a3b8',
+          font: {
+            family: 'Inter'
+          }
+        }, 
+        grid: { 
+          color: '#334155',
+          drawBorder: false
+        } 
+      },
+      y: { 
+        ticks: { 
+          color: '#94a3b8',
+          font: {
+            family: 'Inter'
+          }
+        }, 
+        grid: { 
+          color: '#334155',
+          drawBorder: false
+        },
+        beginAtZero: true
+      }
+    },
+    elements: {
+      line: {
+        tension: 0.4,
+        borderWidth: 2
+      },
+      point: {
+        radius: 4,
+        hoverRadius: 6,
+        backgroundColor: '#0f172a',
+        borderWidth: 2
+      },
+      bar: {
+        borderRadius: 6,
+        borderSkipped: false
+      }
+    },
+    animation: {
+      duration: 1000,
+      easing: 'easeOutQuart'
+    }
+  };
+
+  // Gráfico de ventas mensuales
+  new Chart(document.getElementById('ventasChart'), {
+    type: 'line',
+    data: {
+      labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+      datasets: [{
+        label: 'Ventas',
+        data: [45, 60, 30, 80, 50, 70, 90, 65, 75, 85, 95, 110],
+        borderColor: chartColors.blue,
+        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+        fill: true,
+        pointBackgroundColor: '#fff',
+        pointBorderColor: chartColors.blue
+      }]
+    },
+    options: chartOptions
+  });
+
+  // Gráfico de distribución de productos
+  new Chart(document.getElementById('productosChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Laptops', 'Celulares', 'Cámaras', 'Accesorios', 'Componentes'],
+      datasets: [{
+        data: [120, 200, 80, 150, 100],
+        backgroundColor: [
+          chartColors.blue,
+          chartColors.green,
+          chartColors.red,
+          chartColors.yellow,
+          chartColors.purple
+        ],
+        borderWidth: 0,
+        hoverOffset: 10
+      }]
+    },
+    options: {
+      ...chartOptions,
+      cutout: '70%',
+      plugins: {
+        ...chartOptions.plugins,
+        legend: {
+          ...chartOptions.plugins.legend,
+          position: 'right'
+        }
+      }
+    }
+  });
+
+  // Gráfico comparativo compras vs ventas
+  new Chart(document.getElementById('comprasVentasChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+      datasets: [
+        {
+          label: 'Compras',
+          data: [35, 50, 40, 60, 30, 55],
+          backgroundColor: chartColors.blue,
+          hoverBackgroundColor: chartColors.lightBlue
+        },
+        {
+          label: 'Ventas',
+          data: [45, 60, 30, 80, 50, 70],
+          backgroundColor: chartColors.green,
+          hoverBackgroundColor: chartColors.lightGreen
+        }
+      ]
+    },
+    options: {
+      ...chartOptions,
+      scales: {
+        ...chartOptions.scales,
+        x: {
+          ...chartOptions.scales.x,
+          stacked: false
+        },
+        y: {
+          ...chartOptions.scales.y,
+          stacked: false
+        }
+      }
+    }
+  });
+
+  // Gráfico de stock por categoría
+  new Chart(document.getElementById('stockChart'), {
+    type: 'polarArea',
+    data: {
+      labels: ['Laptops', 'Celulares', 'Cámaras', 'Accesorios', 'Componentes'],
+      datasets: [{
+        label: 'Stock',
+        data: [200, 150, 300, 100, 250],
+        backgroundColor: [
+          chartColors.blue,
+          chartColors.green,
+          chartColors.red,
+          chartColors.yellow,
+          chartColors.purple
+        ],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      ...chartOptions,
+      plugins: {
+        ...chartOptions.plugins,
+        legend: {
+          ...chartOptions.plugins.legend,
+          position: 'right'
+        }
+      },
+      scale: {
+        ticks: {
+          display: false
+        },
+        gridLines: {
+          color: '#334155'
+        }
+      }
+    }
+  });
+</script>
+{% endblock %}

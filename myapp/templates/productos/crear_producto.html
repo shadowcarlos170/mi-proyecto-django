@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %} Crear Producto {% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow border-0 rounded-4">
+                <div class="card-header bg-success text-white rounded-top-4">
+                    <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i> Registrar nuevo producto</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            {{ form.nombre }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="marca" class="form-label">Marca</label>
+                            {{ form.marca }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            {{ form.descripcion }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="precio" class="form-label">Precio (Bs)</label>
+                            {{ form.precio }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="stock" class="form-label">Stock</label>
+                            {{ form.stock }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="imagen" class="form-label">Imagen del producto</label>
+                            {{ form.imagen }}
+                        </div>
+
+                        <div class="text-end">
+                            <a href="{% url 'productos' %}" class="btn btn-secondary">Cancelar</a>
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
