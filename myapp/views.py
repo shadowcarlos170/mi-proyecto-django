@@ -103,7 +103,7 @@ def eliminar_proveedor(request, id):
 
 def proveedores(request):
     proveedores = Proveedor.objects.all()
-    return render(request, 'proveedores/proveedores.html', {'proveedores': proveedores})
+    return render(request, 'proveedores/Proveedores.html', {'proveedores': proveedores})
 
 
 
@@ -116,7 +116,7 @@ def proveedores(request):
 
 def clientes(request):
     clientes = Cliente.objects.all()
-    return render(request, 'clientes/clientes.html', {'clientes': clientes})
+    return render(request, 'clientes/Clientes.html', {'clientes': clientes})
 
 def crear_cliente(request):
     if request.method == 'POST':
@@ -151,7 +151,7 @@ def eliminar_cliente(request, id):
 
 def empleados(request):
     empleados = Empleado.objects.all()
-    return render(request, 'empleados/empleados.html', {'empleados': empleados})
+    return render(request, 'Empleados/empleados.html', {'empleados': empleados})
 
 def crear_empleado(request):
     if request.method == 'POST':
@@ -368,7 +368,7 @@ def ventas(request):
             'total': total
         })
 
-    return render(request, 'ventas/ventas.html', {
+    return render(request, 'ventas/Ventas.html', {
         'ventas_con_totales': ventas_con_totales
     })
 
