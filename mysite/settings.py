@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-#i6@rh1-dw1og@80)bnp!ny2uf0!(k*40wn%wyc)6_gm=n=3p2')
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = True
 ALLOWED_HOSTS = ['*']  # Puedes cambiarlo luego por tu dominio
 
 # APPLICATIONS
