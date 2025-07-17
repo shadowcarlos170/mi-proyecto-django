@@ -55,12 +55,16 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # DATABASE (para Render y PostgreSQL)
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgres://postgres:turbonet@localhost:5432/sistema_db',  # fallback local
-        conn_max_age=600,
-        ssl_require=True
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'sistema_db_1vdw',
+        'USER': 'postgre',
+        'PASSWORD': 'QOEYhBRTVyii4SmUDmgA8NMKbe5xWA4u',
+        'HOST': 'dpg-d1sjfjali9vc73bio900-a.oregon-postgres.render.com',
+        'PORT': '5432',
+    }
 }
+
 
 # PASSWORD VALIDATORS
 AUTH_PASSWORD_VALIDATORS = [
